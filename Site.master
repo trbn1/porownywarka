@@ -53,7 +53,7 @@
                         <li><a runat="server" href="~/">Strona główna</a></li>
                         <li><a runat="server" href="~/porownywarka">Porównaj oferty</a></li>
                         <li><a runat="server" href="~/About">O porównywarce</a></li>
-                        <li><a runat="server" href="~/Contact">Stworzyciele i kontakt do nich</a></li>
+                        <li><a runat="server" href="~/Contact">Twórcy i kontakt do nich</a></li>
                     </ul>
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
@@ -64,7 +64,7 @@
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %>!</a></li>
+                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Witaj, <%: Context.User.Identity.GetUserName()  %>!</a></li>
                                 <li>
                                     <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Wyloguj" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
                                 </li>

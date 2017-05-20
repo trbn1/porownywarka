@@ -1,40 +1,42 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using System;
-using System.Web;
+﻿using System;
+using System.Data.SqlClient;
+using System.Web.Security;
 using System.Web.UI;
-using WebSite2;
 
 public partial class Account_Login : Page
 {
-        protected void Page_Load(object sender, EventArgs e)
-        {
-            RegisterHyperLink.NavigateUrl = "Register";
-            OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
-            var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-            if (!String.IsNullOrEmpty(returnUrl))
-            {
-                RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
-            }
-        }
+    public string GetConnectionString()
+    {
+        return System.Configuration.ConfigurationManager.ConnectionStrings["connREG"].ConnectionString;
+    }
 
-        protected void LogIn(object sender, EventArgs e)
+    private void LogInUser(string username, string password)
+    {
+        SqlConnection conn = new SqlConnection(GetConnectionString());
+        string sql = "SELECT login,haslo FROM dbo.uzytkownicy WHERE login ='" + username + "' AND haslo ='" + password + "'";
+
+        conn.Open();
+        SqlCommand cmd = new SqlCommand(sql, conn);
+
+        string validInfo;
+        validInfo = (string)cmd.ExecuteScalar();
+
+        if (validInfo != null)
         {
-            if (IsValid)
-            {
-                // Validate the user password
-                var manager = new UserManager();
-                ApplicationUser user = manager.Find(UserName.Text, Password.Text);
-                if (user != null)
-                {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                }
-                else
-                {
-                    FailureText.Text = "Invalid username or password.";
-                    ErrorMessage.Visible = true;
-                }
-            }
+            FormsAuthentication.SetAuthCookie(username, true);
+            Response.Redirect("~/Default.aspx");
+            //Response.Write("Logowanie pomyślne");
         }
+        else
+        {
+            Response.Write("Logowanie niepomyślne");
+        }
+        conn.Close();
+    }
+
+    protected void LogIn(object sender, EventArgs e)
+    {
+        LogInUser(UserName.Text,
+                    Password.Text);
+    }
 }

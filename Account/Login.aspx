@@ -21,14 +21,14 @@
                         <div class="col-md-10">
                             <asp:TextBox runat="server" ID="UserName" CssClass="form-control" />
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
-                                CssClass="text-danger" ErrorMessage="Uprasza się o podanie nazwy użytkownika." />
+                                CssClass="text-danger" ErrorMessage="Podaj nazwę użytkownika" />
                         </div>
                     </div>
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">Hasło</asp:Label>
                         <div class="col-md-10">
                             <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
-                            <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="Uprasza się o podanie hasła." />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="Podaj hasło" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +47,7 @@
                 </div>
                 <p>
                     <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Rejestracja</asp:HyperLink>
-                    jeżeli jeszcze utworzyłeś konta.
+                    jeżeli jeszcze nie utworzyłeś konta.
                 </p>
             </section>
         </div>
