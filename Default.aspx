@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <h1>Porównywarka ofert operatorów sieci komórkowych</h1>
         <p class="lead">Skorzystaj już dziś z naszej innowacyjnej porównywarki ofert</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Porównaj oferty &raquo;</a></p>
+        <p><a href="porownywarka" class="btn btn-primary btn-lg">Porównaj oferty &raquo;</a></p>
     </div>
 
     <div class="row">

@@ -51,6 +51,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Strona główna</a></li>
+                        <li><a runat="server" href="~/porownywarka">Porównaj oferty</a></li>
                         <li><a runat="server" href="~/About">O porównywarce</a></li>
                         <li><a runat="server" href="~/Contact">Stworzyciele i kontakt do nich</a></li>
                     </ul>
