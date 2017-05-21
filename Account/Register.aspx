@@ -56,13 +56,11 @@
         </div>
 
         <div class="form-group">
-            <asp:Label runat="server" AssociatedControlID="Bday" CssClass="col-md-2 control-label">Data urodzenia</asp:Label>
+            <asp:Label runat="server" AssociatedControlID="Surname" CssClass="col-md-2 control-label">Nazwisko</asp:Label>
             <div class="col-md-10">
-                <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="DD/MM/YYYY"/>
-                <asp:RangeValidator ID ="validateBday" runat ="server" ControlToValidate="Bday" ErrorMessage="Niewłaściwa data" Type="Date" 
-                    MinimumValue="01/01/1900" MaximumValue="01/01/2100" Display="Dynamic"></asp:RangeValidator>
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="Bday"
-                    CssClass="text-danger" ErrorMessage="Podaj datę urodzenia" />
+                <asp:TextBox runat="server" ID="Surname" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Surname"
+                    CssClass="text-danger" ErrorMessage="Podaj nazwisko" />
             </div>
         </div>
 
@@ -71,20 +69,94 @@
             <div class="col-md-10">
                 <asp:DropDownList ID="Gender" runat="server" AppendDataBoundItems="true">
                 <asp:ListItem Value="-1">Wybierz</asp:ListItem>
-                <asp:ListItem>Mężczyzna</asp:ListItem>
-                <asp:ListItem>Kobieta</asp:ListItem>
+                <asp:ListItem Value="M">Mężczyzna</asp:ListItem>
+                <asp:ListItem Value="K">Kobieta</asp:ListItem>
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Gender"
-                    CssClass="text-danger" ErrorMessage="Podaj płeć" />
+                    CssClass="text-danger" ErrorMessage="Wybierz płeć" />
             </div>
         </div>
-    
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Bday" CssClass="col-md-2 control-label">Data urodzenia</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="DD.MM.YYYY"/>
+                <asp:RangeValidator ID ="validateBday" runat ="server" ControlToValidate="Bday" ErrorMessage="Niewłaściwa data" Type="Date" 
+                    MinimumValue="01.01.1900" MaximumValue="01.01.2017" Display="Dynamic"></asp:RangeValidator>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Bday"
+                    CssClass="text-danger" ErrorMessage="Podaj datę urodzenia" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Phone" CssClass="col-md-2 control-label">Numer telefonu</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="Phone" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Phone"
+                    CssClass="text-danger" ErrorMessage="Podaj numer telefonu" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Street" CssClass="col-md-2 control-label">Ulica</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="Street" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Street"
+                    CssClass="text-danger" ErrorMessage="Podaj ulicę" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Number" CssClass="col-md-2 control-label">Numer domu</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="Number" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Number"
+                    CssClass="text-danger" ErrorMessage="Podaj numer domu" />
+            </div>
+        </div>
+
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="City" CssClass="col-md-2 control-label">Miasto</asp:Label>
             <div class="col-md-10">
                 <asp:TextBox runat="server" ID="City" CssClass="form-control" />
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="City"
                     CssClass="text-danger" ErrorMessage="Podaj miasto" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="PostCode" CssClass="col-md-2 control-label">Kod pocztowy</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="PostCode" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="PostCode"
+                    CssClass="text-danger" ErrorMessage="Podaj kod pocztowy" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="State" CssClass="col-md-2 control-label">Województwo</asp:Label>
+            <div class="col-md-10">
+                <asp:DropDownList ID="State" runat="server" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1">Wybierz</asp:ListItem>
+                <asp:ListItem>dolnośląskie</asp:ListItem>
+                <asp:ListItem>kujawsko-pomorskie</asp:ListItem>
+                <asp:ListItem>lubelskie</asp:ListItem>
+                <asp:ListItem>lubuskie</asp:ListItem>
+                <asp:ListItem>łódzkie</asp:ListItem>
+                <asp:ListItem>małopolskie</asp:ListItem>
+                <asp:ListItem>mazowieckie</asp:ListItem>
+                <asp:ListItem>opolskie</asp:ListItem>
+                <asp:ListItem>podkarpackie</asp:ListItem>
+                <asp:ListItem>podlaskie</asp:ListItem>
+                <asp:ListItem>pomorskie</asp:ListItem>
+                <asp:ListItem>śląskie</asp:ListItem>
+                <asp:ListItem>świętokrzyskie</asp:ListItem>
+                <asp:ListItem>warmińsko-mazurskie</asp:ListItem>
+                <asp:ListItem>wielkopolskie</asp:ListItem>
+                <asp:ListItem>zachodniopomorskie</asp:ListItem>
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="State"
+                    CssClass="text-danger" ErrorMessage="Wybierz województwo" />
             </div>
         </div>
 
