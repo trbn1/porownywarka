@@ -81,8 +81,6 @@
             <asp:Label runat="server" AssociatedControlID="Bday" CssClass="col-md-2 control-label">Data urodzenia</asp:Label>
             <div class="col-md-10">
                 <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="DD.MM.YYYY"/>
-                <asp:RangeValidator ID ="validateBday" runat ="server" ControlToValidate="Bday" ErrorMessage="Niewłaściwa data" Type="Date" 
-                    MinimumValue="01.01.1900" MaximumValue="01.01.2017" Display="Dynamic"></asp:RangeValidator>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Bday"
                     CssClass="text-danger" ErrorMessage="Podaj datę urodzenia" />
             </div>
