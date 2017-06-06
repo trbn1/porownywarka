@@ -4,7 +4,7 @@
     <h2><%: Title %>.</h2>
     <h3>Kliknij w parametr żeby posortować</h3>
     <p>
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:DBConnectionString %>" SelectCommand="SELECT Oferty.[id_oferty], Oferty.[koszt_sms], Oferty.[pakiet_internetowy], Oferty.[koszt_polaczenia_za_min], Oferty.[waznosc_konta], Oferty.[kwota_doladowania], Oferty.[ocena_oferty], Operatorzy.[nazwa_operatora] FROM Oferty RIGHT JOIN Operatorzy ON Oferty.[id_operatora] = Operatorzy.[id_operatora]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:compdb %>" ProviderName="<%$ ConnectionStrings:compdb.providerName%>"  SelectCommand="SELECT Oferty.id_oferty, Oferty.koszt_sms, Oferty.pakiet_internetowy, Oferty.koszt_polaczenia_za_min, Oferty.waznosc_konta, Oferty.kwota_doladowania, Oferty.ocena_oferty, Operatorzy.nazwa_operatora FROM Oferty RIGHT JOIN Operatorzy ON Oferty.id_operatora = Operatorzy.id_operatora"></asp:SqlDataSource>
         <asp:GridView ID="GridView1" runat="server" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="id_oferty" DataSourceID="SqlDataSource1">
             <Columns>
                 <asp:BoundField DataField="id_oferty" HeaderText="ID Oferty" ReadOnly="True" SortExpression="id_oferty" />
