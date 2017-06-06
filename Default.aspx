@@ -15,7 +15,7 @@
                 Utwórz w pełni darmowe konto. Będziesz miał możliwość otrzymania spersonalizowanych ofert.
             </p>
             <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Załóż konto &raquo;</a>
+                <a class="btn btn-default" href="Account/Register">Załóż konto &raquo;</a>
             </p>
         </div>
         <div class="col-md-4">
@@ -33,7 +33,7 @@
                 Jesteśmy niezwykle ambitnymi studentami, niestraszne nam żadne wyzwanie. Czasami popełniamy błędy ale zawsze zrobimy wszystko co w naszej mocy by je naprawić.
             </p>
             <p>
-                <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Skontaktuj się z nami &raquo;</a>
+                <a class="btn btn-default" href="Contact">Skontaktuj się z nami &raquo;</a>
             </p>
         </div>
     </div>
