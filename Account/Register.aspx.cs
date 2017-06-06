@@ -1,48 +1,49 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Web.UI;
+using System.Web.UI.WebControls;
+using MySql.Data.MySqlClient;
 
 public partial class Account_Register : Page
 {
     public string GetConnectionString()
     {
-        return System.Configuration.ConfigurationManager.ConnectionStrings["connREG"].ConnectionString;
+        return System.Configuration.ConfigurationManager.ConnectionStrings["usrdb"].ConnectionString;
     }
 
     private void InsertUser(string username, string password, string email, string name, string bday, string gender, string city, string street, string number, string post_code, string state, string surname, string phone)
     {
-        SqlConnection conn = new SqlConnection(GetConnectionString());
-        string sql_usr = "INSERT INTO dbo.uzytkownicy (id_uzytkownika, id_adres, id_dane, login, haslo, e_mail) VALUES "
+        MySqlConnection conn = new MySqlConnection(GetConnectionString());
+        string sql_usr = "INSERT INTO uzytkownicy (id_uzytkownika, id_adres, id_dane, login, haslo, e_mail) VALUES "
                     + " (@id_uzytkownika,@id_adres,@id_dane,@login,@haslo,@e_mail)";
 
-        string sql_addr = "INSERT INTO dbo.adresy (id_adres, ulica, nr_domu, miasto, kod_pocztowy, wojewodztwo) VALUES "
+        string sql_addr = "INSERT INTO adresy (id_adres, ulica, nr_domu, miasto, kod_pocztowy, wojewodztwo) VALUES "
                     + " (@id_adres,@ulica,@nr_domu,@miasto,@kod_pocztowy,@wojewodztwo)";
 
-        string sql_usrData = "INSERT INTO dbo.dane_osobowe (id_dane, imie, nazwisko, plec, data_urodzenia, nr_telefonu) VALUES "
+        string sql_usrData = "INSERT INTO dane_osobowe (id_dane, imie, nazwisko, plec, data_urodzenia, nr_telefonu) VALUES "
                     + " (@id_dane,@imie,@nazwisko,@plec,@data_urodzenia,@nr_telefonu)";
 
-        string getLastUID = "SELECT MAX(id_uzytkownika) FROM dbo.uzytkownicy";
+        string getLastUID = "SELECT MAX(id_uzytkownika) FROM uzytkownicy";
 
         try
         {
             conn.Open();
-            SqlCommand cmd = new SqlCommand(sql_usr, conn);
-            SqlCommand cmd2 = new SqlCommand(sql_addr, conn);
-            SqlCommand cmd3 = new SqlCommand(sql_usrData, conn);
-            SqlCommand cmdLastUID = new SqlCommand(getLastUID, conn);
+            MySqlCommand cmd = new MySqlCommand(sql_usr, conn);
+            MySqlCommand cmd2 = new MySqlCommand(sql_addr, conn);
+            MySqlCommand cmd3 = new MySqlCommand(sql_usrData, conn);
+            MySqlCommand cmdLastUID = new MySqlCommand(getLastUID, conn);
 
             int uid = (Int32)cmdLastUID.ExecuteScalar() + 1;
             int dataid = uid;
             int addressid = uid;
 
-            SqlParameter[] param = new SqlParameter[6];
-            param[0] = new SqlParameter("@id_uzytkownika", SqlDbType.Int, 10);
-            param[1] = new SqlParameter("@id_adres", SqlDbType.Int, 10);
-            param[2] = new SqlParameter("@id_dane", SqlDbType.Int, 10);
-            param[3] = new SqlParameter("@login", SqlDbType.VarChar, 50);
-            param[4] = new SqlParameter("@haslo", SqlDbType.VarChar, 50);
-            param[5] = new SqlParameter("@e_mail", SqlDbType.VarChar, 50);
+            MySqlParameter[] param = new MySqlParameter[6];
+            param[0] = new MySqlParameter("@id_uzytkownika", MySqlDbType.Int32, 10);
+            param[1] = new MySqlParameter("@id_adres", MySqlDbType.Int32, 10);
+            param[2] = new MySqlParameter("@id_dane", MySqlDbType.Int32, 10);
+            param[3] = new MySqlParameter("@login", MySqlDbType.VarChar, 50);
+            param[4] = new MySqlParameter("@haslo", MySqlDbType.VarChar, 50);
+            param[5] = new MySqlParameter("@e_mail", MySqlDbType.VarChar, 50);
 
             param[0].Value = uid;
             param[1].Value = dataid;
@@ -51,13 +52,13 @@ public partial class Account_Register : Page
             param[4].Value = password;
             param[5].Value = email;
 
-            SqlParameter[] param2 = new SqlParameter[6];
-            param2[0] = new SqlParameter("@id_adres", SqlDbType.Int, 10);
-            param2[1] = new SqlParameter("@ulica", SqlDbType.VarChar, 50);
-            param2[2] = new SqlParameter("@nr_domu", SqlDbType.VarChar, 50);
-            param2[3] = new SqlParameter("@miasto", SqlDbType.VarChar, 50);
-            param2[4] = new SqlParameter("@kod_pocztowy", SqlDbType.VarChar, 50);
-            param2[5] = new SqlParameter("@wojewodztwo", SqlDbType.VarChar, 50);
+            MySqlParameter[] param2 = new MySqlParameter[6];
+            param2[0] = new MySqlParameter("@id_adres", MySqlDbType.Int32, 10);
+            param2[1] = new MySqlParameter("@ulica", MySqlDbType.VarChar, 50);
+            param2[2] = new MySqlParameter("@nr_domu", MySqlDbType.VarChar, 50);
+            param2[3] = new MySqlParameter("@miasto", MySqlDbType.VarChar, 50);
+            param2[4] = new MySqlParameter("@kod_pocztowy", MySqlDbType.VarChar, 50);
+            param2[5] = new MySqlParameter("@wojewodztwo", MySqlDbType.VarChar, 50);
 
             param2[0].Value = addressid;
             param2[1].Value = street;
@@ -66,13 +67,13 @@ public partial class Account_Register : Page
             param2[4].Value = post_code;
             param2[5].Value = state;
 
-            SqlParameter[] param3 = new SqlParameter[6];
-            param3[0] = new SqlParameter("@id_dane", SqlDbType.Int, 10);
-            param3[1] = new SqlParameter("@imie", SqlDbType.VarChar, 50);
-            param3[2] = new SqlParameter("@nazwisko", SqlDbType.VarChar, 50);
-            param3[3] = new SqlParameter("@plec", SqlDbType.VarChar, 50);
-            param3[4] = new SqlParameter("@data_urodzenia", SqlDbType.VarChar, 50);
-            param3[5] = new SqlParameter("@nr_telefonu", SqlDbType.VarChar, 50);
+            MySqlParameter[] param3 = new MySqlParameter[6];
+            param3[0] = new MySqlParameter("@id_dane", MySqlDbType.Int32, 10);
+            param3[1] = new MySqlParameter("@imie", MySqlDbType.VarChar, 50);
+            param3[2] = new MySqlParameter("@nazwisko", MySqlDbType.VarChar, 50);
+            param3[3] = new MySqlParameter("@plec", MySqlDbType.VarChar, 50);
+            param3[4] = new MySqlParameter("@data_urodzenia", MySqlDbType.VarChar, 50);
+            param3[5] = new MySqlParameter("@nr_telefonu", MySqlDbType.VarChar, 50);
 
             param3[0].Value = dataid;
             param3[1].Value = name;
@@ -135,5 +136,16 @@ public partial class Account_Register : Page
                     Surname.Text, 
                     Phone.Text);
         Response.Write("Rejestracja pomyślna.");
+    }
+
+    protected void server_valBday(object source, ServerValidateEventArgs args)
+    {
+        DateTime minDate = DateTime.Parse("01.01.1900");
+        DateTime maxDate = DateTime.Parse("31.12.2016");
+        DateTime dt;
+
+        args.IsValid = (DateTime.TryParse(args.Value, out dt)
+                        && dt <= maxDate
+                        && dt >= minDate);
     }
 }
