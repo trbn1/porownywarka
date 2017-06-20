@@ -24,8 +24,7 @@ public partial class Account_Login : Page
         if (validInfo != null)
         {
             FormsAuthentication.SetAuthCookie(username, true);
-            Response.Redirect("~/Default.aspx");
-            //Response.Write("Logowanie pomyślne");
+            Response.Redirect("~/");
         }
         else
         {

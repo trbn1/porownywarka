@@ -69,8 +69,8 @@
             <div class="">
                 <asp:DropDownList ID="Gender" runat="server" AppendDataBoundItems="true">
                 <asp:ListItem Value="-1">Wybierz</asp:ListItem>
-                <asp:ListItem Value="M">Mężczyzna</asp:ListItem>
-                <asp:ListItem Value="K">Kobieta</asp:ListItem>
+                <asp:ListItem Value="M">M</asp:ListItem>
+                <asp:ListItem Value="K">K</asp:ListItem>
                 </asp:DropDownList>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Gender"
                     CssClass="text-danger" ErrorMessage="Wybierz płeć" />
@@ -80,7 +80,7 @@
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="Bday" CssClass="col-md-2 control-label">Data urodzenia</asp:Label>
             <div class="">
-                <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="DD.MM.YYYY"/>
+                <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="YYYY-MM-DD"/>
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Bday"
                     CssClass="text-danger" ErrorMessage="Podaj datę urodzenia" />
             </div>
@@ -160,7 +160,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <asp:Button runat="server" OnClick="CreateUser_Click" Text="Zarejestruj" CssClass="btn btn-default" />
+                <asp:Button runat="server" OnClick="CreateUser_Click" Text="Zarejestruj" CssClass="btn btn-primary" />
             </div>
         </div>
     </div>

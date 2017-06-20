@@ -1,127 +1,182 @@
-﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using WebSite2;
+﻿using System;
+using System.Data;
+using System.Web.UI;
+using MySql.Data.MySqlClient;
 
-public partial class Account_Manage : System.Web.UI.Page
+public partial class Account_Manage : Page
 {
-    protected string SuccessMessage
+    public string GetConnectionString()
     {
-        get;
-        private set;
+        return System.Configuration.ConfigurationManager.ConnectionStrings["usrdb"].ConnectionString;
     }
 
-    protected bool CanRemoveExternalLogins
+    protected void Page_Init(object sender, EventArgs e)
     {
-        get;
-        private set;
-    }
+        string username = Context.User.Identity.Name;
+        UserName.Text = username;
 
-    private bool HasPassword(UserManager manager)
-    {
-        var user = manager.FindById(User.Identity.GetUserId());
-        return (user != null && user.PasswordHash != null);
-    }
+        MySqlConnection conn = new MySqlConnection(GetConnectionString());
 
-    protected void Page_Load()
-    {
-        if (!IsPostBack)
+        try
         {
-            // Determine the sections to render
-            UserManager manager = new UserManager();
-            if (HasPassword(manager))
-            {
-                changePasswordHolder.Visible = true;
-            }
-            else
-            {
-                setPassword.Visible = true;
-                changePasswordHolder.Visible = false;
-            }
-            CanRemoveExternalLogins = manager.GetLogins(User.Identity.GetUserId()).Count() > 1;
+            conn.Open();
 
-            // Render success message
-            var message = Request.QueryString["m"];
-            if (message != null)
+            string getUsr = "SELECT id_uzytkownika, e_mail FROM uzytkownicy WHERE login='" + username + "'";
+            MySqlCommand cmdUsr = new MySqlCommand(getUsr, conn);
+            using (MySqlDataReader readData = cmdUsr.ExecuteReader())
             {
-                // Strip the query string from action
-                Form.Action = ResolveUrl("~/Account/Manage");
-
-                SuccessMessage =
-                    message == "ChangePwdSuccess" ? "Your password has been changed."
-                    : message == "SetPwdSuccess" ? "Your password has been set."
-                    : message == "RemoveLoginSuccess" ? "The account was removed."
-                    : String.Empty;
-                successMessage.Visible = !String.IsNullOrEmpty(SuccessMessage);
+                while (readData.Read())
+                {
+                    usrID.Text = readData.GetString(0);
+                    Email.Text = readData.GetString(1);
+                }
             }
+            int uid = Convert.ToInt32(usrID.Text);
+            int dataid = uid;
+            int addressid = uid;
+
+            string sql_addr = "SELECT ulica, nr_domu, miasto, kod_pocztowy, wojewodztwo FROM adresy WHERE id_adres=" + addressid;
+            MySqlCommand cmdAddr = new MySqlCommand(sql_addr, conn);
+            using (MySqlDataReader readData = cmdAddr.ExecuteReader())
+            {
+                while (readData.Read())
+                {
+                    Street.Text = readData.GetString(0);
+                    Number.Text = readData.GetString(1);
+                    City.Text = readData.GetString(2);
+                    PostCode.Text = readData.GetString(3);
+                    State.Text = readData.GetString(4);
+                }
+            }
+
+            string sql_usrData = "SELECT imie, nazwisko, plec, DATE_FORMAT(data_urodzenia, '%Y-%m-%d') AS data, nr_telefonu FROM dane_osobowe WHERE id_dane=" + dataid;
+            MySqlCommand cmdUsrData = new MySqlCommand(sql_usrData, conn);
+            using (MySqlDataReader readData = cmdUsrData.ExecuteReader())
+            {
+                while (readData.Read())
+                {
+                    Name.Text = readData.GetString(0);
+                    Surname.Text = readData.GetString(1);
+                    Gender.Text = readData.GetString(2);
+                    Bday.Text = readData.GetString(3);
+                    Phone.Text = readData.GetString(4);
+                }
+            }
+        }
+        catch (System.Data.SqlClient.SqlException ex)
+        {
+            string msg = "Select Error:";
+            msg += ex.Message;
+            throw new Exception(msg);
+        }
+        finally
+        {
+            conn.Close();
         }
     }
 
-    protected void ChangePassword_Click(object sender, EventArgs e)
+    private void UpdateUser(string usrID, string username, string password, string email, string name, string bday, string gender, string city, string street, string number, string post_code, string state, string surname, string phone)
     {
-        if (IsValid)
+        MySqlConnection conn = new MySqlConnection(GetConnectionString());
+
+        try
         {
-            UserManager manager = new UserManager();
-            IdentityResult result = manager.ChangePassword(User.Identity.GetUserId(), CurrentPassword.Text, NewPassword.Text);
-            if (result.Succeeded)
+            conn.Open();
+            int uid = Convert.ToInt32(usrID);
+            int dataid = uid;
+            int addressid = uid;
+            string sql_usr = "UPDATE uzytkownicy SET haslo=@haslo, e_mail=@e_mail WHERE id_uzytkownika=" + uid;
+            string sql_addr = "UPDATE adresy SET ulica=@ulica, nr_domu=@nr_domu, miasto=@miasto, kod_pocztowy=@kod_pocztowy, wojewodztwo=@wojewodztwo WHERE id_adres=" + addressid;
+            string sql_usrData = "UPDATE dane_osobowe SET imie=@imie, nazwisko=@nazwisko, plec=@plec, data_urodzenia=@data_urodzenia, nr_telefonu=@nr_telefonu WHERE id_dane=" + dataid;
+            MySqlCommand cmd = new MySqlCommand(sql_usr, conn);
+            MySqlCommand cmd2 = new MySqlCommand(sql_addr, conn);
+            MySqlCommand cmd3 = new MySqlCommand(sql_usrData, conn);
+
+            MySqlParameter[] param = new MySqlParameter[2];
+            param[0] = new MySqlParameter("@haslo", MySqlDbType.VarChar, 50);
+            param[1] = new MySqlParameter("@e_mail", MySqlDbType.VarChar, 50);
+
+            param[0].Value = password;
+            param[1].Value = email;
+
+            MySqlParameter[] param2 = new MySqlParameter[5];
+            param2[0] = new MySqlParameter("@ulica", MySqlDbType.VarChar, 50);
+            param2[1] = new MySqlParameter("@nr_domu", MySqlDbType.VarChar, 50);
+            param2[2] = new MySqlParameter("@miasto", MySqlDbType.VarChar, 50);
+            param2[3] = new MySqlParameter("@kod_pocztowy", MySqlDbType.VarChar, 50);
+            param2[4] = new MySqlParameter("@wojewodztwo", MySqlDbType.VarChar, 50);
+
+            param2[0].Value = street;
+            param2[1].Value = number;
+            param2[2].Value = city;
+            param2[3].Value = post_code;
+            param2[4].Value = state;
+
+            MySqlParameter[] param3 = new MySqlParameter[5];
+            param3[0] = new MySqlParameter("@imie", MySqlDbType.VarChar, 50);
+            param3[1] = new MySqlParameter("@nazwisko", MySqlDbType.VarChar, 50);
+            param3[2] = new MySqlParameter("@plec", MySqlDbType.VarChar, 50);
+            param3[3] = new MySqlParameter("@data_urodzenia", MySqlDbType.VarChar, 50);
+            param3[4] = new MySqlParameter("@nr_telefonu", MySqlDbType.VarChar, 50);
+
+            param3[0].Value = name;
+            param3[1].Value = surname;
+            param3[2].Value = gender;
+            param3[3].Value = bday;
+            param3[4].Value = phone;
+
+            for (int i = 0; i < param2.Length; i++)
             {
-                var user = manager.FindById(User.Identity.GetUserId());
-                IdentityHelper.SignIn(manager, user, isPersistent: false);
-                Response.Redirect("~/Account/Manage?m=ChangePwdSuccess");
+                cmd2.Parameters.Add(param2[i]);
             }
-            else
+
+            cmd2.CommandType = CommandType.Text;
+            cmd2.ExecuteNonQuery();
+
+            for (int i = 0; i < param3.Length; i++)
             {
-                AddErrors(result);
+                cmd3.Parameters.Add(param3[i]);
             }
+
+            cmd3.CommandType = CommandType.Text;
+            cmd3.ExecuteNonQuery();
+
+            for (int i = 0; i < param.Length; i++)
+            {
+                cmd.Parameters.Add(param[i]);
+            }
+
+            cmd.CommandType = CommandType.Text;
+            cmd.ExecuteNonQuery();
+        }
+        catch (System.Data.SqlClient.SqlException ex)
+        {
+            string msg = "Update Error:";
+            msg += ex.Message;
+            throw new Exception(msg);
+        }
+        finally
+        {
+            conn.Close();
         }
     }
 
-    protected void SetPassword_Click(object sender, EventArgs e)
+    protected void UpdateUser_Click(object sender, EventArgs e)
     {
-        if (IsValid)
-        {
-            // Create the local login info and link the local account to the user
-            UserManager manager = new UserManager();
-            IdentityResult result = manager.AddPassword(User.Identity.GetUserId(), password.Text);
-            if (result.Succeeded)
-            {
-                Response.Redirect("~/Account/Manage?m=SetPwdSuccess");
-            }
-            else
-            {
-                AddErrors(result);
-            }
-        }
-    }
-
-    public IEnumerable<UserLoginInfo> GetLogins()
-    {
-        UserManager manager = new UserManager();
-        var accounts = manager.GetLogins(User.Identity.GetUserId());
-        CanRemoveExternalLogins = accounts.Count() > 1 || HasPassword(manager);
-        return accounts;
-    }
-
-    public void RemoveLogin(string loginProvider, string providerKey)
-    {
-        UserManager manager = new UserManager();
-        var result = manager.RemoveLogin(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-        string msg = String.Empty;
-        if (result.Succeeded)
-        {
-            var user = manager.FindById(User.Identity.GetUserId());
-            IdentityHelper.SignIn(manager, user, isPersistent: false);
-            msg = "?m=RemoveLoginSuccess";
-        }
-        Response.Redirect("~/Account/Manage" + msg);
-    }
-
-    private void AddErrors(IdentityResult result)
-    {
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError("", error);
-        }
+        UpdateUser(usrID.Text,
+                    UserName.Text,
+                    Password.Text,
+                    Email.Text,
+                    Name.Text,
+                    Bday.Text,
+                    Gender.SelectedItem.Text,
+                    City.Text,
+                    Street.Text,
+                    Number.Text,
+                    PostCode.Text,
+                    State.Text,
+                    Surname.Text,
+                    Phone.Text);
+        Response.Write("Zmiana danych pomyślna.");
     }
 }

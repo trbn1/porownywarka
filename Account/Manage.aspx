@@ -1,136 +1,168 @@
-﻿<%@ Page Title="Manage Account" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Manage.aspx.cs" Inherits="Account_Manage" %>
-
-<%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
+﻿<%@ Page Title="Zarządzanie kontem" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Manage.aspx.cs" Inherits="Account_Manage" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
 
-    <div>
-        <asp:PlaceHolder runat="server" ID="successMessage" Visible="false" ViewStateMode="Disabled">
-            <p class="text-success"><%: SuccessMessage %></p>
-        </asp:PlaceHolder>
+    <div class="form-horizontal">
+        <h4>Edycja danych użytkownika.</h4>
+        <hr />
+        <asp:ValidationSummary runat="server" CssClass="text-danger" />
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="usrID" CssClass="col-md-2 control-label">ID</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="usrID" CssClass="form-control" readonly="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-2 control-label">Nazwa użytkownika</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="UserName" CssClass="form-control" readonly="true"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">Hasło</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Password"
+                    CssClass="text-danger" ErrorMessage="Podaj hasło" />
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="ConfirmPassword" CssClass="col-md-2 control-label">Potwierdź hasło</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="ConfirmPassword" TextMode="Password" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="ConfirmPassword"
+                    CssClass="text-danger" Display="Dynamic" ErrorMessage="Ponownie wprowadź hasło" />
+                <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
+                    CssClass="text-danger" Display="Dynamic" ErrorMessage="Poprawnie potwierdź hasło" />
+            </div>
+        </div>
+               
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Email" CssClass="col-md-2 control-label">E-mail</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Email" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Email"
+                    CssClass="text-danger" ErrorMessage="Podaj e-mail" />
+            </div>
+        </div>
+                
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Name" CssClass="col-md-2 control-label">Imię</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Name" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Name"
+                    CssClass="text-danger" ErrorMessage="Podaj imię" />
+            </div>
+        </div>
 
-    </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Surname" CssClass="col-md-2 control-label">Nazwisko</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Surname" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Surname"
+                    CssClass="text-danger" ErrorMessage="Podaj nazwisko" />
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <section id="passwordForm">
-                <asp:PlaceHolder runat="server" ID="setPassword" Visible="false">
-                    <p>
-                        You do not have a local password for this site. Add a local
-                        password so you can log in without an external login.
-                    </p>
-                    <div class="form-horizontal">
-                        <h4>Set Password Form</h4>
-                        <hr />
-                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
-                        <div class="form-group">
-                            <asp:Label runat="server" AssociatedControlID="password" CssClass="col-md-2 control-label">Password</asp:Label>
-                            <div class="col-md-10">
-                                <asp:TextBox runat="server" ID="password" TextMode="Password"  CssClass="form-control"  />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="password"
-                                    CssClass="text-danger" ErrorMessage="The password field is required."
-                                    Display="Dynamic" ValidationGroup="SetPassword" />
-                                <asp:ModelErrorMessage runat="server" ModelStateKey="NewPassword" AssociatedControlID="password"
-                                    CssClass="text-danger" SetFocusOnError="true" />
-                            </div>
-                        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Gender" CssClass="col-md-2 control-label">Płeć</asp:Label>
+            <div class="">
+                <asp:DropDownList ID="Gender" runat="server" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1">Wybierz</asp:ListItem>
+                <asp:ListItem Value="M">M</asp:ListItem>
+                <asp:ListItem Value="K">K</asp:ListItem>
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Gender"
+                    CssClass="text-danger" ErrorMessage="Wybierz płeć" />
+            </div>
+        </div>
 
-                        <div class="form-group">
-                            <asp:Label runat="server" AssociatedControlID="confirmPassword" CssClass="col-md-2 control-label">Confirm password</asp:Label>
-                            <div class="col-md-10">
-                                <asp:TextBox runat="server" ID="confirmPassword" TextMode="Password"  CssClass="form-control"  />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="confirmPassword"
-                                    CssClass="text-danger" Display="Dynamic" ErrorMessage="The confirm password field is required."
-                                    ValidationGroup="SetPassword" />
-                                <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="confirmPassword"
-                                    CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match."
-                                    ValidationGroup="SetPassword" />
-                            </div>
-                        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Bday" CssClass="col-md-2 control-label">Data urodzenia</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Bday" CssClass="form-control" placeholder="YYYY-MM-DD"/>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Bday"
+                    CssClass="text-danger" ErrorMessage="Podaj datę urodzenia" />
+            </div>
+        </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <asp:Button runat="server" Text="Set Password" ValidationGroup="SetPassword" OnClick="SetPassword_Click" CssClass="btn btn-default" />
-                            </div>
-                        </div>
-                    </div>
-                </asp:PlaceHolder>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Phone" CssClass="col-md-2 control-label">Numer telefonu</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Phone" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Phone"
+                    CssClass="text-danger" ErrorMessage="Podaj numer telefonu" />
+            </div>
+        </div>
 
-                <asp:PlaceHolder runat="server" ID="changePasswordHolder" Visible="false">
-                    <p>You're logged in as <strong><%: User.Identity.GetUserName() %></strong>.</p>
-                    <div class="form-horizontal">
-                        <h4>Change Password Form</h4>
-                        <asp:ValidationSummary runat="server" ShowModelStateErrors="true" CssClass="text-danger" />
-                        <div class="form-group">
-                            <asp:Label runat="server" ID="CurrentPasswordLabel" AssociatedControlID="CurrentPassword" CssClass="col-md-2 control-label">Current password</asp:Label>
-                            <div class="col-md-10">
-                                <asp:TextBox runat="server" ID="CurrentPassword" TextMode="Password" CssClass="form-control" />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="CurrentPassword"
-                                    CssClass="text-danger" ErrorMessage="The current password field is required."
-                                    ValidationGroup="ChangePassword" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label runat="server" ID="NewPasswordLabel" AssociatedControlID="NewPassword" CssClass="col-md-2 control-label">New password</asp:Label>
-                            <div class="col-md-10">
-                                <asp:TextBox runat="server" ID="NewPassword" TextMode="Password" CssClass="form-control" />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="NewPassword"
-                                    CssClass="text-danger" ErrorMessage="The new password is required."
-                                    ValidationGroup="ChangePassword" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label runat="server" ID="ConfirmNewPasswordLabel" AssociatedControlID="ConfirmNewPassword" CssClass="col-md-2 control-label">Confirm new password</asp:Label>
-                            <div class="col-md-10">
-                                <asp:TextBox runat="server" ID="ConfirmNewPassword" TextMode="Password" CssClass="form-control" />
-                                <asp:RequiredFieldValidator runat="server" ControlToValidate="ConfirmNewPassword"
-                                    CssClass="text-danger" Display="Dynamic" ErrorMessage="Confirm new password is required."
-                                    ValidationGroup="ChangePassword" />
-                                <asp:CompareValidator runat="server" ControlToCompare="NewPassword" ControlToValidate="ConfirmNewPassword"
-                                    CssClass="text-danger" Display="Dynamic" ErrorMessage="The new password and confirmation password do not match."
-                                    ValidationGroup="ChangePassword" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <asp:Button runat="server" Text="Change password" OnClick="ChangePassword_Click" CssClass="btn btn-default" ValidationGroup="ChangePassword" />
-                            </div>
-                        </div>
-                    </div>
-                </asp:PlaceHolder>
-            </section>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Street" CssClass="col-md-2 control-label">Ulica</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Street" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Street"
+                    CssClass="text-danger" ErrorMessage="Podaj ulicę" />
+            </div>
+        </div>
 
-            <section id="externalLoginsForm">
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="Number" CssClass="col-md-2 control-label">Numer domu</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="Number" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="Number"
+                    CssClass="text-danger" ErrorMessage="Podaj numer domu" />
+            </div>
+        </div>
 
-                <asp:ListView runat="server"
-                    ItemType="Microsoft.AspNet.Identity.UserLoginInfo"
-                    SelectMethod="GetLogins" DeleteMethod="RemoveLogin" DataKeyNames="LoginProvider,ProviderKey">
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="City" CssClass="col-md-2 control-label">Miasto</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="City" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="City"
+                    CssClass="text-danger" ErrorMessage="Podaj miasto" />
+            </div>
+        </div>
 
-                    <LayoutTemplate>
-                        <h4>Registered Logins</h4>
-                        <table class="table">
-                            <tbody>
-                                <tr runat="server" id="itemPlaceholder"></tr>
-                            </tbody>
-                        </table>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="PostCode" CssClass="col-md-2 control-label">Kod pocztowy</asp:Label>
+            <div class="">
+                <asp:TextBox runat="server" ID="PostCode" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="PostCode"
+                    CssClass="text-danger" ErrorMessage="Podaj kod pocztowy" />
+            </div>
+        </div>
 
-                    </LayoutTemplate>
-                    <ItemTemplate>
-                        <tr>
-                            <td><%#: Item.LoginProvider %></td>
-                            <td>
-                                <asp:Button runat="server" Text="Remove" CommandName="Delete" CausesValidation="false"
-                                    ToolTip='<%# "Remove this " + Item.LoginProvider + " login from your account" %>'
-                                    Visible="<%# CanRemoveExternalLogins %>" CssClass="btn btn-default" />
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:ListView>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="State" CssClass="col-md-2 control-label">Województwo</asp:Label>
+            <div class="">
+                <asp:DropDownList ID="State" runat="server" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1">Wybierz</asp:ListItem>
+                <asp:ListItem>dolnośląskie</asp:ListItem>
+                <asp:ListItem>kujawsko-pomorskie</asp:ListItem>
+                <asp:ListItem>lubelskie</asp:ListItem>
+                <asp:ListItem>lubuskie</asp:ListItem>
+                <asp:ListItem>łódzkie</asp:ListItem>
+                <asp:ListItem>małopolskie</asp:ListItem>
+                <asp:ListItem>mazowieckie</asp:ListItem>
+                <asp:ListItem>opolskie</asp:ListItem>
+                <asp:ListItem>podkarpackie</asp:ListItem>
+                <asp:ListItem>podlaskie</asp:ListItem>
+                <asp:ListItem>pomorskie</asp:ListItem>
+                <asp:ListItem>śląskie</asp:ListItem>
+                <asp:ListItem>świętokrzyskie</asp:ListItem>
+                <asp:ListItem>warmińsko-mazurskie</asp:ListItem>
+                <asp:ListItem>wielkopolskie</asp:ListItem>
+                <asp:ListItem>zachodniopomorskie</asp:ListItem>
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="State"
+                    CssClass="text-danger" ErrorMessage="Wybierz województwo" />
+            </div>
+        </div>
 
-                <uc:openauthproviders runat="server" returnurl="~/Account/Manage" />
-            </section>
-
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <asp:Button runat="server" OnClick="UpdateUser_Click" Text="Zatwierdź zmiany" CssClass="btn btn-primary" />
+            </div>
         </div>
     </div>
 
