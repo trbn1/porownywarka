@@ -18,7 +18,7 @@
                     </asp:PlaceHolder>
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="UserName" CssClass="col-md-2 control-label">Nazwa użytkownika</asp:Label>
-                        <div class="col-md-10">
+                        <div class="">
                             <asp:TextBox runat="server" ID="UserName" CssClass="form-control" />
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName"
                                 CssClass="text-danger" ErrorMessage="Podaj nazwę użytkownika" />
@@ -26,13 +26,13 @@
                     </div>
                     <div class="form-group">
                         <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 control-label">Hasło</asp:Label>
-                        <div class="col-md-10">
+                        <div class="">
                             <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
                             <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="Podaj hasło" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-offset-2">
                             <div class="checkbox">
                                 <asp:CheckBox runat="server" ID="RememberMe" />
                                 <asp:Label runat="server" AssociatedControlID="RememberMe">Zapamiętać?</asp:Label>
@@ -46,15 +46,9 @@
                     </div>
                 </div>
                 <p>
-                    <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Rejestracja</asp:HyperLink>
+                    <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled" NavigateUrl="~/Account/Register">Rejestracja</asp:HyperLink>
                     jeżeli jeszcze nie utworzyłeś konta.
                 </p>
-            </section>
-        </div>
-
-        <div class="col-md-4">
-            <section id="socialLoginForm">
-                <uc:openauthproviders runat="server" id="OpenAuthLogin" />
             </section>
         </div>
     </div>

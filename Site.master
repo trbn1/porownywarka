@@ -38,7 +38,7 @@
             </Scripts>
         </asp:ScriptManager>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -58,16 +58,16 @@
                     <asp:LoginView runat="server" ViewStateMode="Disabled">
                         <AnonymousTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Register">Rejestracja</a></li>
-                                <li><a runat="server" href="~/Account/Login">Logowanie</a></li>
+                                <li><p class="navbar-btn"><a runat="server" href="~/Account/Register" class="btn btn-default">Rejestracja</a></p></li>
+                                <li><p class="navbar-btn"><a runat="server" href="~/Account/Login" class="btn btn-default">Logowanie</a></p></li>
                             </ul>
                         </AnonymousTemplate>
                         <LoggedInTemplate>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Witaj, <%: Context.User.Identity.GetUserName()  %>!</a></li>
-                                <li>
-                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Wyloguj" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
+                                <li><p class="navbar-btn"><a runat="server" href="~/Account/Manage" title="Manage your account" class="btn btn-default">Witaj, <%: Context.User.Identity.GetUserName()  %>!</a></p></li>
+                                <li><p class="navbar-btn">
+                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Wyloguj" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" class="btn btn-default"/>
+                                </p></li>
                             </ul>
                         </LoggedInTemplate>
                     </asp:LoginView>
@@ -78,8 +78,10 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
-            <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Porównywarka ofert operatorów sieci komórkowych</p>
+            <footer class="footer">
+                <div class="container">
+                    <p class="text-muted">&copy; <%: DateTime.Now.Year %> - Porównywarka ofert operatorów sieci komórkowych</p>
+                </div>
             </footer>
         </div>
     </form>

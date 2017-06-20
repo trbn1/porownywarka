@@ -2,10 +2,10 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <div class="jumbotron">
+    <div style="background:transparent !important" class="jumbotron text-center">
         <h1>Porównywarka ofert operatorów sieci komórkowych</h1>
         <p class="lead">Skorzystaj już dziś z naszej innowacyjnej porównywarki ofert</p>
-        <p><a href="porownywarka" class="btn btn-primary btn-lg">Porównaj oferty &raquo;</a></p>
+        <p><a href="porownywarka" class="btn btn-default btn-lg">Porównaj oferty &raquo;</a></p>
     </div>
 
     <div class="row">
